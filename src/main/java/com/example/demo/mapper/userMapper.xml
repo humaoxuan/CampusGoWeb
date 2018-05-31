@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.userMapper">
+
+        <insert id="insertUser"  useGeneratedKeys="true" keyProperty="id">
+            INSERT INTO `user`
+            (
+            <trim suffixOverrides=",">
+                <if test="id!=null">
+                    `id`,
+                </if>
+                <if test="nick_name!=null">
+                    `nick_name`,
+                </if>
+                <if test="veryfication_code!=null">
+                    `veryfication_code`,
+                </if>
+                <if test="icon!=null">
+                    `icon`,
+                </if>
+                <if test="school!=null">
+                    `school`,
+                </if>
+                <if test="academy!=null">
+                    `academy`,
+                </if>
+                <if test="grade!=null">
+                    `grade`,
+                </if>
+                <if test="uclass!=null">
+                    `uclass`,
+                </if>
+            </trim>
+            )
+            VALUES
+            (
+            <trim suffixOverrides=",">
+                <if test="id!=null">
+                    #{id},
+                </if>
+                <if test="nick_name!=null">
+                    #{nick_name},
+                </if>
+                <if test="veryfication_code!=null">
+                    #{veryfication_code},
+                </if>
+                <if test="icon!=null">
+                    #{icon},
+                </if>
+                <if test="school!=null">
+                    #{school},
+                </if>
+                <if test="academy!=null">
+                    #{academy},
+                </if>
+                <if test="grade!=null">
+                    #{grade},
+                </if>
+                <if test="uclass!=null">
+                    #{uclass},
+                </if>
+            </trim>
+            )
+        </insert>
+
+
+
+
+        <update id="updateUser">
+            UPDATE `user`
+            SET
+            <trim suffixOverrides=",">
+                <if test="nick_name != null and nick_name!=''">
+                    `nick_name` = #{nick_name},
+                </if>
+                <if test="veryfication_code != null and veryfication_code!=''">
+                    `veryfication_code` = #{veryfication_code},
+                </if>
+                <if test="icon != null and icon!=''">
+                    `icon` = #{icon},
+                </if>
+                <if test="school != null and school!=''">
+                    `school` = #{school},
+                </if>
+                <if test="academy != null and academy!=''">
+                    `academy` = #{academy},
+                </if>
+                <if test="grade != null and grade!=''">
+                    `grade` = #{grade},
+                </if>
+                <if test="uclass != null and uclass!=''">
+                    `uclass` = #{uclass},
+                </if>
+            </trim>
+            WHERE
+            <trim suffixOverrides="and">
+                `id` = #{id} and
+            </trim>
+        </update>
+
+
+
+        <resultMap type="com.example.demo.model.User" id="userMap">
+            <result property="id" column="id"/>
+            <result property="nick_name" column="nick_name"/>
+            <result property="veryfication_code" column="veryfication_code"/>
+            <result property="icon" column="icon"/>
+            <result property="school" column="school"/>
+            <result property="academy" column="academy"/>
+            <result property="grade" column="grade"/>
+            <result property="uclass" column="uclass"/>
+        </resultMap>
+
+
+        <select id="queryUser" resultMap="userMap">
+            select
+            <include refid="baseResult"></include>
+            from  `user`
+            <trim prefix="where" suffixOverrides="and | or">
+                <if test="id != null">
+                    `id` = #{id}
+                </if>
+            </trim>
+        </select>
+
+        <select id="queryUserLimit1" resultMap="userMap">
+            select
+            <include refid="baseResult"></include>
+            from  `user`
+            <trim prefix="where" suffixOverrides="and | or">
+                <if test="id != null">
+                    `id` = #{id}
+                </if>
+            </trim>
+            limit 1
+        </select>
+
+        <sql id="allResult">
+            <trim suffixOverrides=",">
+                `id`,
+                `nick_name`,
+                `veryfication_code`,
+                `icon`,
+                `school`,
+                `academy`,
+                `grade`,
+                `uclass`,
+            </trim>
+        </sql>
+
+
+
+        <sql id="baseResult">
+            <trim suffixOverrides=",">
+                <if test = "(_parameter instanceof com.example.demo.model.user$QueryBuilder) == true">
+
+                    <if test="fetchFields==null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields!=null">
+                        <if test="fetchFields.AllFields !=null">
+                            <include refid="allResult"></include>
+                        </if>
+                        <if test="fetchFields.AllFields ==null and fetchFields.fetchFields==null and fetchFields.excludeFields==null and fetchFields.otherFields==null">
+                            <include refid="allResult"></include>
+                        </if>
+                        <if test="fetchFields.AllFields==null and fetchFields.fetchFields!=null">
+                            <if test="fetchFields.fetchFields.id==true">
+                                `id`,
+                            </if>
+                            <if test="fetchFields.fetchFields.nick_name==true">
+                                `nick_name`,
+                            </if>
+                            <if test="fetchFields.fetchFields.veryfication_code==true">
+                                `veryfication_code`,
+                            </if>
+                            <if test="fetchFields.fetchFields.icon==true">
+                                `icon`,
+                            </if>
+                            <if test="fetchFields.fetchFields.school==true">
+                                `school`,
+                            </if>
+                            <if test="fetchFields.fetchFields.academy==true">
+                                `academy`,
+                            </if>
+                            <if test="fetchFields.fetchFields.grade==true">
+                                `grade`,
+                            </if>
+                            <if test="fetchFields.fetchFields.uclass==true">
+                                `uclass`,
+                            </if>
+                        </if>
+                        <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
+                            <if test="fetchFields.excludeFields.id==null">
+                                `id`,
+                            </if>
+                            <if test="fetchFields.excludeFields.nick_name==null">
+                                `nick_name`,
+                            </if>
+                            <if test="fetchFields.excludeFields.veryfication_code==null">
+                                `veryfication_code`,
+                            </if>
+                            <if test="fetchFields.excludeFields.icon==null">
+                                `icon`,
+                            </if>
+                            <if test="fetchFields.excludeFields.school==null">
+                                `school`,
+                            </if>
+                            <if test="fetchFields.excludeFields.academy==null">
+                                `academy`,
+                            </if>
+                            <if test="fetchFields.excludeFields.grade==null">
+                                `grade`,
+                            </if>
+                            <if test="fetchFields.excludeFields.uclass==null">
+                                `uclass`,
+                            </if>
+                        </if>
+                        <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">
+                            <foreach collection="fetchFields.otherFields" index="index" item="item" separator=",">
+                                `#{item}`
+                            </foreach>
+                        </if>
+                    </if>
+                </if>
+                <if test="(_parameter instanceof com.example.demo.model.user$QueryBuilder) == false" >
+                    <include refid="allResult"></include>
+                </if>
+
+            </trim>
+        </sql>
+</mapper>
