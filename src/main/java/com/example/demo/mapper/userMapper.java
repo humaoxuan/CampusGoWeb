@@ -7,7 +7,7 @@ import com.example.demo.mapper.base.UserBaseMapper;
 /**
 *  @author author
 */
-public interface userMapper extends UserBaseMapper{
+public interface UserMapper extends UserBaseMapper{
 
     int insertUser(User object);
 
@@ -15,5 +15,8 @@ public interface userMapper extends UserBaseMapper{
 
     List<User> queryUser(User object);
 
-    User queryUserLimit1(int id);
+    User queryUserLimit1(@Param("id") int id);
+
+    User queryUserByPhoneLimit1(@Param("phone") String phone);
+
 }

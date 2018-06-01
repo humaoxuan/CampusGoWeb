@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.mapper.userMapper">
+<mapper namespace="com.example.demo.mapper.UserMapper">
 
         <insert id="insertUser"  useGeneratedKeys="true" keyProperty="id">
             INSERT INTO `user`
@@ -9,6 +9,9 @@
             <trim suffixOverrides=",">
                 <if test="id!=null">
                     `id`,
+                </if>
+                <if test="phone!=null">
+                    `phone`,
                 </if>
                 <if test="nick_name!=null">
                     `nick_name`,
@@ -38,6 +41,9 @@
             <trim suffixOverrides=",">
                 <if test="id!=null">
                     #{id},
+                </if>
+                <if test="phone!=null">
+                    #{phone},
                 </if>
                 <if test="nick_name!=null">
                     #{nick_name},
@@ -96,13 +102,15 @@
             WHERE
             <trim suffixOverrides="and">
                 `id` = #{id} and
+                `phone` = #{phone} and
             </trim>
         </update>
 
 
 
-        <resultMap type="com.example.demo.model.User" id="userMap">
+        <resultMap type="com.example.demo.model.User" id="UserMap">
             <result property="id" column="id"/>
+            <result property="phone" column="phone"/>
             <result property="nick_name" column="nick_name"/>
             <result property="veryfication_code" column="veryfication_code"/>
             <result property="icon" column="icon"/>
@@ -113,7 +121,216 @@
         </resultMap>
 
 
-        <select id="queryUser" resultMap="userMap">
+        <select id="queryUser" resultMap="UserMap">
+            select
+            <include refid="baseResult"></include>
+            from  `user`
+            <trim prefix="where" suffixOverrides="and | or">
+                <if test="id != null">
+                    `id` = #{id} and
+                </if>
+                <if test="phone != null and phone!=''">
+                    `phone` = #{phone} and
+                </if>
+                <if test="nick_name != null and nick_name!=''">
+                    `nick_name` = #{nick_name} and
+                </if>
+                <if test="veryfication_code != null and veryfication_code!=''">
+                    `veryfication_code` = #{veryfication_code} and
+                </if>
+                <if test="icon != null and icon!=''">
+                    `icon` = #{icon} and
+                </if>
+                <if test="school != null and school!=''">
+                    `school` = #{school} and
+                </if>
+                <if test="academy != null and academy!=''">
+                    `academy` = #{academy} and
+                </if>
+                <if test="grade != null and grade!=''">
+                    `grade` = #{grade} and
+                </if>
+                <if test="uclass != null and uclass!=''">
+                    `uclass` = #{uclass} and
+                </if>
+                <if test = "(_parameter instanceof com.example.demo.model.User$QueryBuilder) == true">
+                    <if test="idList != null">
+                        `id` in
+                        <foreach collection="idList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                    <if test="idSt !=null">
+                        `id` >= #{idSt} and
+                    </if>
+                    <if test="idEd!=null">
+                        `id` &lt;= #{idEd} and
+                    </if>
+                    <if test="phoneList != null">
+                        `phone` in
+                        <foreach collection="phoneList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                    <if test ="fuzzyPhone!=null and fuzzyPhone.size()>0">
+                        (
+                        <foreach collection="fuzzyPhone"  separator="or" item="item">
+                            `Phone` like concat('%',#{item},'%')
+                        </foreach>
+                        ) and
+                    </if>
+                    <if test ="rightFuzzyPhone!=null and rightFuzzyPhone.size()>0">
+                        (
+                        <foreach collection="rightFuzzyPhone"  separator="or" item="item">
+                            `Phone` like concat(#{item},'%')
+                        </foreach>
+                        ) and
+                    </if>
+                    <if test="nick_nameList != null">
+                        `nick_name` in
+                        <foreach collection="nick_nameList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                    <if test ="fuzzyNick_name!=null and fuzzyNick_name.size()>0">
+                        (
+                        <foreach collection="fuzzyNick_name"  separator="or" item="item">
+                            `Nick_name` like concat('%',#{item},'%')
+                        </foreach>
+                        ) and
+                    </if>
+                    <if test ="rightFuzzyNick_name!=null and rightFuzzyNick_name.size()>0">
+                        (
+                        <foreach collection="rightFuzzyNick_name"  separator="or" item="item">
+                            `Nick_name` like concat(#{item},'%')
+                        </foreach>
+                        ) and
+                    </if>
+                    <if test="veryfication_codeList != null">
+                        `veryfication_code` in
+                        <foreach collection="veryfication_codeList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                    <if test ="fuzzyVeryfication_code!=null and fuzzyVeryfication_code.size()>0">
+                        (
+                        <foreach collection="fuzzyVeryfication_code"  separator="or" item="item">
+                            `Veryfication_code` like concat('%',#{item},'%')
+                        </foreach>
+                        ) and
+                    </if>
+                    <if test ="rightFuzzyVeryfication_code!=null and rightFuzzyVeryfication_code.size()>0">
+                        (
+                        <foreach collection="rightFuzzyVeryfication_code"  separator="or" item="item">
+                            `Veryfication_code` like concat(#{item},'%')
+                        </foreach>
+                        ) and
+                    </if>
+                    <if test="iconList != null">
+                        `icon` in
+                        <foreach collection="iconList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                    <if test ="fuzzyIcon!=null and fuzzyIcon.size()>0">
+                        (
+                        <foreach collection="fuzzyIcon"  separator="or" item="item">
+                            `Icon` like concat('%',#{item},'%')
+                        </foreach>
+                        ) and
+                    </if>
+                    <if test ="rightFuzzyIcon!=null and rightFuzzyIcon.size()>0">
+                        (
+                        <foreach collection="rightFuzzyIcon"  separator="or" item="item">
+                            `Icon` like concat(#{item},'%')
+                        </foreach>
+                        ) and
+                    </if>
+                    <if test="schoolList != null">
+                        `school` in
+                        <foreach collection="schoolList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                    <if test ="fuzzySchool!=null and fuzzySchool.size()>0">
+                        (
+                        <foreach collection="fuzzySchool"  separator="or" item="item">
+                            `School` like concat('%',#{item},'%')
+                        </foreach>
+                        ) and
+                    </if>
+                    <if test ="rightFuzzySchool!=null and rightFuzzySchool.size()>0">
+                        (
+                        <foreach collection="rightFuzzySchool"  separator="or" item="item">
+                            `School` like concat(#{item},'%')
+                        </foreach>
+                        ) and
+                    </if>
+                    <if test="academyList != null">
+                        `academy` in
+                        <foreach collection="academyList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                    <if test ="fuzzyAcademy!=null and fuzzyAcademy.size()>0">
+                        (
+                        <foreach collection="fuzzyAcademy"  separator="or" item="item">
+                            `Academy` like concat('%',#{item},'%')
+                        </foreach>
+                        ) and
+                    </if>
+                    <if test ="rightFuzzyAcademy!=null and rightFuzzyAcademy.size()>0">
+                        (
+                        <foreach collection="rightFuzzyAcademy"  separator="or" item="item">
+                            `Academy` like concat(#{item},'%')
+                        </foreach>
+                        ) and
+                    </if>
+                    <if test="gradeList != null">
+                        `grade` in
+                        <foreach collection="gradeList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                    <if test ="fuzzyGrade!=null and fuzzyGrade.size()>0">
+                        (
+                        <foreach collection="fuzzyGrade"  separator="or" item="item">
+                            `Grade` like concat('%',#{item},'%')
+                        </foreach>
+                        ) and
+                    </if>
+                    <if test ="rightFuzzyGrade!=null and rightFuzzyGrade.size()>0">
+                        (
+                        <foreach collection="rightFuzzyGrade"  separator="or" item="item">
+                            `Grade` like concat(#{item},'%')
+                        </foreach>
+                        ) and
+                    </if>
+                    <if test="uclassList != null">
+                        `uclass` in
+                        <foreach collection="uclassList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                    <if test ="fuzzyUclass!=null and fuzzyUclass.size()>0">
+                        (
+                        <foreach collection="fuzzyUclass"  separator="or" item="item">
+                            `Uclass` like concat('%',#{item},'%')
+                        </foreach>
+                        ) and
+                    </if>
+                    <if test ="rightFuzzyUclass!=null and rightFuzzyUclass.size()>0">
+                        (
+                        <foreach collection="rightFuzzyUclass"  separator="or" item="item">
+                            `Uclass` like concat(#{item},'%')
+                        </foreach>
+                        ) and
+                    </if>
+                </if>
+            </trim>
+        </select>
+
+        <select id="queryUserLimit1" resultMap="UserMap">
             select
             <include refid="baseResult"></include>
             from  `user`
@@ -121,16 +338,20 @@
                 <if test="id != null">
                     `id` = #{id}
                 </if>
+                <!--<if test="phone != null and phone!=''">-->
+                    <!--`phone` = #{phone} -->
+                <!--</if>-->
             </trim>
+            limit 1
         </select>
 
-        <select id="queryUserLimit1" resultMap="userMap">
+        <select id="queryUserByPhoneLimit1" resultMap="UserMap">
             select
             <include refid="baseResult"></include>
             from  `user`
             <trim prefix="where" suffixOverrides="and | or">
-                <if test="id != null">
-                    `id` = #{id}
+                <if test="phone != null and phone!=''">
+                `phone` = #{phone}
                 </if>
             </trim>
             limit 1
@@ -139,6 +360,7 @@
         <sql id="allResult">
             <trim suffixOverrides=",">
                 `id`,
+                `phone`,
                 `nick_name`,
                 `veryfication_code`,
                 `icon`,
@@ -153,7 +375,7 @@
 
         <sql id="baseResult">
             <trim suffixOverrides=",">
-                <if test = "(_parameter instanceof com.example.demo.model.user$QueryBuilder) == true">
+                <if test = "(_parameter instanceof com.example.demo.model.User$QueryBuilder) == true">
 
                     <if test="fetchFields==null">
                         <include refid="allResult"></include>
@@ -168,6 +390,9 @@
                         <if test="fetchFields.AllFields==null and fetchFields.fetchFields!=null">
                             <if test="fetchFields.fetchFields.id==true">
                                 `id`,
+                            </if>
+                            <if test="fetchFields.fetchFields.phone==true">
+                                `phone`,
                             </if>
                             <if test="fetchFields.fetchFields.nick_name==true">
                                 `nick_name`,
@@ -194,6 +419,9 @@
                         <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
                             <if test="fetchFields.excludeFields.id==null">
                                 `id`,
+                            </if>
+                            <if test="fetchFields.excludeFields.phone==null">
+                                `phone`,
                             </if>
                             <if test="fetchFields.excludeFields.nick_name==null">
                                 `nick_name`,
@@ -224,7 +452,7 @@
                         </if>
                     </if>
                 </if>
-                <if test="(_parameter instanceof com.example.demo.model.user$QueryBuilder) == false" >
+                <if test="(_parameter instanceof com.example.demo.model.User$QueryBuilder) == false" >
                     <include refid="allResult"></include>
                 </if>
 

@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.mapper.base.userBaseMapper">
+<mapper namespace="com.example.demo.mapper.base.UserBaseMapper">
 
 
-    <insert id="insertuser"  useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertUser"  useGeneratedKeys="true" keyProperty="id">
         INSERT INTO `user`
         (
         <trim suffixOverrides=",">
                     <if test="id!=null">
                         `id`,
+                    </if>
+                    <if test="phone!=null">
+                        `phone`,
                     </if>
                     <if test="nick_name!=null">
                         `nick_name`,
@@ -40,6 +43,9 @@
                 <if test="id!=null">
                     #{id},
                 </if>
+                <if test="phone!=null">
+                    #{phone},
+                </if>
                 <if test="nick_name!=null">
                     #{nick_name},
                 </if>
@@ -68,7 +74,7 @@
 
 
 
-    <update id="updateuser">
+    <update id="updateUser">
         UPDATE `user`
         SET
         <trim suffixOverrides=",">
@@ -97,13 +103,15 @@
         WHERE
         <trim suffixOverrides="and">
                 `id` = #{id} and
+                `phone` = #{phone} and
         </trim>
     </update>
 
 
 
-    <resultMap type="com.example.demo.model.user" id="userMap">
+    <resultMap type="com.example.demo.model.User" id="UserMap">
         <result property="id" column="id"/>
+        <result property="phone" column="phone"/>
         <result property="nick_name" column="nick_name"/>
         <result property="veryfication_code" column="veryfication_code"/>
         <result property="icon" column="icon"/>
@@ -114,13 +122,16 @@
     </resultMap>
 
 
-    <select id="queryuser" resultMap="userMap">
+    <select id="queryUser" resultMap="UserMap">
         select
         <include refid="baseResult"></include>
         from  `user`
         <trim prefix="where" suffixOverrides="and | or">
             <if test="id != null">
                 `id` = #{id} and
+            </if>
+            <if test="phone != null and phone!=''">
+                `phone` = #{phone} and
             </if>
             <if test="nick_name != null and nick_name!=''">
                 `nick_name` = #{nick_name} and
@@ -143,7 +154,7 @@
             <if test="uclass != null and uclass!=''">
                 `uclass` = #{uclass} and
             </if>
-            <if test = "(_parameter instanceof com.example.demo.model.user$QueryBuilder) == true">
+            <if test = "(_parameter instanceof com.example.demo.model.User$QueryBuilder) == true">
                 <if test="idList != null">
                     `id` in
                     <foreach collection="idList" close=")" open="(" separator="," item="item">
@@ -155,6 +166,26 @@
                 </if>
                 <if test="idEd!=null">
                     `id` &lt;= #{idEd} and
+                </if>
+                <if test="phoneList != null">
+                    `phone` in
+                    <foreach collection="phoneList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyPhone!=null and fuzzyPhone.size()>0">
+                    (
+                    <foreach collection="fuzzyPhone"  separator="or" item="item">
+                        `Phone` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyPhone!=null and rightFuzzyPhone.size()>0">
+                    (
+                    <foreach collection="rightFuzzyPhone"  separator="or" item="item">
+                        `Phone` like concat(#{item},'%')
+                    </foreach>
+                    ) and
                 </if>
                 <if test="nick_nameList != null">
                     `nick_name` in
@@ -300,13 +331,16 @@
         </trim>
     </select>
 
-    <select id="queryuserLimit1" resultMap="userMap">
+    <select id="queryUserLimit1" resultMap="UserMap">
         select
         <include refid="baseResult"></include>
         from  `user`
         <trim prefix="where" suffixOverrides="and | or">
             <if test="id != null">
                 `id` = #{id} and
+            </if>
+            <if test="phone != null and phone!=''">
+                `phone` = #{phone} and
             </if>
             <if test="nick_name != null and nick_name!=''">
                 `nick_name` = #{nick_name} and
@@ -329,7 +363,7 @@
             <if test="uclass != null and uclass!=''">
                 `uclass` = #{uclass} and
             </if>
-            <if test = "(_parameter instanceof com.example.demo.model.user$QueryBuilder) == true">
+            <if test = "(_parameter instanceof com.example.demo.model.User$QueryBuilder) == true">
                     <if test="idList != null">
                         `id` in
                         <foreach collection="idList" close=")" open="(" separator="," item="item">
@@ -341,6 +375,26 @@
                 </if>
                 <if test="idEd!=null">
                     `id` &lt;= #{idEd} and
+                </if>
+                    <if test="phoneList != null">
+                        `phone` in
+                        <foreach collection="phoneList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyPhone!=null and fuzzyPhone.size()>0">
+                    (
+                    <foreach collection="fuzzyPhone"  separator="or" item="item">
+                        `Phone` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyPhone!=null and rightFuzzyPhone.size()>0">
+                    (
+                    <foreach collection="rightFuzzyPhone"  separator="or" item="item">
+                        `Phone` like concat(#{item},'%')
+                    </foreach>
+                    ) and
                 </if>
                     <if test="nick_nameList != null">
                         `nick_name` in
@@ -490,6 +544,7 @@
     <sql id="allResult">
         <trim suffixOverrides=",">
         `id`,
+        `phone`,
         `nick_name`,
         `veryfication_code`,
         `icon`,
@@ -504,7 +559,7 @@
 
     <sql id="baseResult">
         <trim suffixOverrides=",">
-            <if test = "(_parameter instanceof com.example.demo.model.user$QueryBuilder) == true">
+            <if test = "(_parameter instanceof com.example.demo.model.User$QueryBuilder) == true">
 
                 <if test="fetchFields==null">
                     <include refid="allResult"></include>
@@ -519,6 +574,9 @@
                     <if test="fetchFields.AllFields==null and fetchFields.fetchFields!=null">
                     <if test="fetchFields.fetchFields.id==true">
                         `id`,
+                    </if>
+                    <if test="fetchFields.fetchFields.phone==true">
+                        `phone`,
                     </if>
                     <if test="fetchFields.fetchFields.nick_name==true">
                         `nick_name`,
@@ -545,6 +603,9 @@
                     <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
                     <if test="fetchFields.excludeFields.id==null">
                         `id`,
+                    </if>
+                    <if test="fetchFields.excludeFields.phone==null">
+                        `phone`,
                     </if>
                     <if test="fetchFields.excludeFields.nick_name==null">
                         `nick_name`,
@@ -575,7 +636,7 @@
                     </if>
                 </if>
             </if>
-            <if test="(_parameter instanceof com.example.demo.model.user$QueryBuilder) == false" >
+            <if test="(_parameter instanceof com.example.demo.model.User$QueryBuilder) == false" >
                 <include refid="allResult"></include>
             </if>
 

@@ -10,7 +10,7 @@ import java.util.List;
 */
 public class User implements Serializable {
 
-    private static final long serialVersionUID = 1527654388130L;
+    private static final long serialVersionUID = 1527828440965L;
 
 
     /**
@@ -19,6 +19,13 @@ public class User implements Serializable {
     * isNullAble:0
     */
     private Integer id;
+
+    /**
+    * 主键
+    * 
+    * isNullAble:0
+    */
+    private String phone;
 
     /**
     * 
@@ -69,6 +76,14 @@ public class User implements Serializable {
 
     public Integer getId(){
         return this.id;
+    }
+
+    public void setPhone(String phone){
+        this.phone = phone;
+    }
+
+    public String getPhone(){
+        return this.phone;
     }
 
     public void setNick_name(String nick_name){
@@ -130,6 +145,7 @@ public class User implements Serializable {
     public String toString() {
         return "User{" +
                 "id='" + id + '\'' +
+                "phone='" + phone + '\'' +
                 "nick_name='" + nick_name + '\'' +
                 "veryfication_code='" + veryfication_code + '\'' +
                 "icon='" + icon + '\'' +
@@ -144,7 +160,7 @@ public class User implements Serializable {
         return new QueryBuilder();
     }
 
-    public static class QueryBuilder extends User {
+    public static class QueryBuilder extends User{
         /**
         * 需要返回的列
         */
@@ -168,6 +184,20 @@ public class User implements Serializable {
             return this.idEd;
         }
 
+        private List<String> phoneList;
+
+
+        private List<String> fuzzyPhone;
+
+        public List<String> getFuzzyPhone(){
+            return this.fuzzyPhone;
+        }
+
+        private List<String> rightFuzzyPhone;
+
+        public List<String> getRightFuzzyPhone(){
+            return this.rightFuzzyPhone;
+        }
         private List<String> nick_nameList;
 
 
@@ -318,6 +348,78 @@ public class User implements Serializable {
 
         public QueryBuilder excludeId(){
             setFetchFields("excludeFields","id");
+            return this;
+        }
+
+
+
+        public QueryBuilder fuzzyPhone (List<String> fuzzyPhone){
+            this.fuzzyPhone = fuzzyPhone;
+            return this;
+        }
+
+        public QueryBuilder fuzzyPhone (String ... fuzzyPhone){
+            if (fuzzyPhone != null){
+                List<String> list = new ArrayList<>();
+                for (String item : fuzzyPhone){
+                    if (item != null){
+                        list.add(item);
+                    }
+                }
+                this.fuzzyPhone = list;
+            }
+            return this;
+        }
+
+        public QueryBuilder rightFuzzyPhone (List<String> rightFuzzyPhone){
+            this.rightFuzzyPhone = rightFuzzyPhone;
+            return this;
+        }
+
+        public QueryBuilder rightFuzzyPhone (String ... rightFuzzyPhone){
+            if (rightFuzzyPhone != null){
+                List<String> list = new ArrayList<>();
+                for (String item : rightFuzzyPhone){
+                    if (item != null){
+                        list.add(item);
+                    }
+                }
+                this.rightFuzzyPhone = list;
+            }
+            return this;
+        }
+
+        public QueryBuilder phone(String phone){
+            setPhone(phone);
+            return this;
+        }
+
+        public QueryBuilder phoneList(String ... phone){
+            if (phone != null){
+                List<String> list = new ArrayList<>();
+                for (String item : phone){
+                    if (item != null){
+                        list.add(item);
+                    }
+                }
+                this.phoneList = list;
+            }
+
+            return this;
+        }
+
+        public QueryBuilder phoneList(List<String> phone){
+            this.phoneList = phone;
+            return this;
+        }
+
+        public QueryBuilder fetchPhone(){
+            setFetchFields("fetchFields","phone");
+            return this;
+        }
+
+        public QueryBuilder excludePhone(){
+            setFetchFields("excludeFields","phone");
             return this;
         }
 
