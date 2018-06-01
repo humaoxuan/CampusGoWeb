@@ -11,9 +11,9 @@ import javax.annotation.Resource;
 
 
 @RestController
-public class TestController {
-    @Resource
-    private UserService userService;
+    public class TestController {
+        @Resource
+        private UserService userService;
 
     @RequestMapping(value = "/hello")
     public User hello(){

@@ -9,11 +9,6 @@ import com.example.demo.mapper.base.UserBaseMapper;
 */
 public interface UserMapper extends UserBaseMapper{
 
-    int insertUser(User object);
-
-    int updateUser(User object);
-
-    List<User> queryUser(User object);
 
     User queryUserLimit1(@Param("id") int id);
 
