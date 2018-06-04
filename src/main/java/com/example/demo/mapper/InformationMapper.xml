@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.InformationMapper">
+
+
+    <select id="queryInformationLimit20" resultMap="InformationMap">
+        select
+        <include refid="baseResult"></include>
+        from  `information`
+        limit #{startIndex},20
+    </select>
+
+    <sql id="allResult">
+        <trim suffixOverrides=",">
+            `id`,
+            `content`,
+            `type`,
+            `time`,
+            `user_id`,
+        </trim>
+    </sql>
+
+    <resultMap type="com.example.demo.model.Information" id="InformationMap">
+        <result property="id" column="id"/>
+        <result property="content" column="content"/>
+        <result property="type" column="type"/>
+        <result property="time" column="time"/>
+        <result property="user_id" column="user_id"/>
+    </resultMap>
+
+    <sql id="baseResult">
+        <trim suffixOverrides=",">
+            <if test = "(_parameter instanceof com.example.demo.model.Information$QueryBuilder) == true">
+
+                <if test="fetchFields==null">
+                    <include refid="allResult"></include>
+                </if>
+                <if test="fetchFields!=null">
+                    <if test="fetchFields.AllFields !=null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields ==null and fetchFields.fetchFields==null and fetchFields.excludeFields==null and fetchFields.otherFields==null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.fetchFields!=null">
+                        <if test="fetchFields.fetchFields.id==true">
+                            `id`,
+                        </if>
+                        <if test="fetchFields.fetchFields.content==true">
+                            `content`,
+                        </if>
+                        <if test="fetchFields.fetchFields.type==true">
+                            `type`,
+                        </if>
+                        <if test="fetchFields.fetchFields.time==true">
+                            `time`,
+                        </if>
+                        <if test="fetchFields.fetchFields.user_id==true">
+                            `user_id`,
+                        </if>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
+                        <if test="fetchFields.excludeFields.id==null">
+                            `id`,
+                        </if>
+                        <if test="fetchFields.excludeFields.content==null">
+                            `content`,
+                        </if>
+                        <if test="fetchFields.excludeFields.type==null">
+                            `type`,
+                        </if>
+                        <if test="fetchFields.excludeFields.time==null">
+                            `time`,
+                        </if>
+                        <if test="fetchFields.excludeFields.user_id==null">
+                            `user_id`,
+                        </if>
+                    </if>
+                    <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">
+                        <foreach collection="fetchFields.otherFields" index="index" item="item" separator=",">
+                            `#{item}`
+                        </foreach>
+                    </if>
+                </if>
+            </if>
+            <if test="(_parameter instanceof com.example.demo.model.Information$QueryBuilder) == false" >
+                <include refid="allResult"></include>
+            </if>
+
+        </trim>
+    </sql>
+</mapper>

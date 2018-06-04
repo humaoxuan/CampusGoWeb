@@ -15,10 +15,9 @@ public class LoginController {
 
     @RequestMapping(value = "/login")
     public User login(String phone, String veryfyCode){
-        System.out.println(phone);
         User user = userService.getUserByPhone(phone);
-        if(user.getVeryfication_code() == veryfyCode)
+        if(user.getVeryfication_code().equals(veryfyCode))
             return user;
-        return user;
+        return null;
     }
 }
