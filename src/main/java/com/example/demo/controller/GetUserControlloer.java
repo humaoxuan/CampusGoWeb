@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
 import com.example.demo.Service.InfoService;
+import com.example.demo.Service.UserService;
 import com.example.demo.model.Information;
+import com.example.demo.model.User;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,13 +11,13 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
-public class GetInfoControlloer {
+public class GetUserControlloer {
     @Resource
-    InfoService infoService;
+    UserService userService;
 
-    @RequestMapping(value = "/getInfo")
-    public List<Information> getInfo(int startIndex){
-        List<Information> list = infoService.queryInfoLimit20(startIndex);
-        return list;
+    @RequestMapping(value = "/getUserById")
+    public User getInfo(int id){
+        User user = userService.getUserById(id);
+        return user;
     }
 }
