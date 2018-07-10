@@ -42,21 +42,21 @@ import javax.annotation.Resource;
         userService.updateUser(user);
         System.out.println(veryfyCode);
 
-////        发送短信验证码，使用的阿里sdk
-//        SmsUtil smsUtil = new SmsUtil();
-//        SendSmsResponse response = null;
-//        try {
-//            response = smsUtil.sendSms(phone, veryfyCode);
-//        } catch (ClientException e) {
-//            e.printStackTrace(); }
-//
-//        if(response!=null) {
-//            System.out.println("短信接口返回的数据----------------");
-//            System.out.println("Code=" + response.getCode());
-//            System.out.println("Message=" + response.getMessage());
-//            System.out.println("RequestId=" + response.getRequestId());
-//            System.out.println("BizId=" + response.getBizId());
-//        }
+//        发送短信验证码，使用的阿里sdk
+        SmsUtil smsUtil = new SmsUtil();
+        SendSmsResponse response = null;
+        try {
+            response = smsUtil.sendSms(phone, veryfyCode);
+        } catch (ClientException e) {
+            e.printStackTrace(); }
+
+        if(response!=null) {
+            System.out.println("短信接口返回的数据----------------");
+            System.out.println("Code=" + response.getCode());
+            System.out.println("Message=" + response.getMessage());
+            System.out.println("RequestId=" + response.getRequestId());
+            System.out.println("BizId=" + response.getBizId());
+        }
        return user;
     }
 }
