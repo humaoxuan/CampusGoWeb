@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.mapper.TypeMapper;
 import com.example.demo.model.Type;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,11 +12,11 @@ import java.util.List;
 public class GetTypeController {
 
     @Resource
-    private
+    private TypeMapper typeMapper;
 
     @RequestMapping("/getType")
     public List<Type> getType(){
-        List<Type> typeList=null;
+        List<Type> typeList=typeMapper.queryType();
         return typeList;
     }
 }

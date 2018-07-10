@@ -32,13 +32,17 @@ import javax.annotation.Resource;
             veryfyCode = stringBuffer.toString();
         }
 
-//       持久化验证码
+//       持久化验证码，把验证码放入数据库
         User user = userService.getUserByPhone(phone);
+        if(null == user){
+            user = userService.getUserById(3);
+        }
+        user.setPhone(phone);
         user.setVeryfication_code(veryfyCode);
         userService.updateUser(user);
         System.out.println(veryfyCode);
 
-////        发送短信验证码
+////        发送短信验证码，使用的阿里sdk
 //        SmsUtil smsUtil = new SmsUtil();
 //        SendSmsResponse response = null;
 //        try {

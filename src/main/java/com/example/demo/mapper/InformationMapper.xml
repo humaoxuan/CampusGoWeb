@@ -8,6 +8,7 @@
         select
         <include refid="baseResult"></include>
         from  `information`
+        ORDER BY id desc
         limit #{startIndex},20
     </select>
 
