@@ -15,7 +15,19 @@ public class UploadInfoControlloer {
     InfoServiceImpl infoService;
 
     @RequestMapping(value = "/uploadInfo")
-    public String uploadInfo(String info,int userId){
+    public String uploadInfo(String info){
+        Information information = new Information();
+        information.setContent(info);
+        information.setType("未分类");
+        information.setTime(LocalDateTime.now());
+        information.setUser_id(1);
+
+        infoService.insertInfo(information);
+        return null;
+    }
+
+    @RequestMapping(value = "/uploadInfoByUser")
+    public String uploadInfoByUser(String info,int userId){
         Information information = new Information();
         information.setContent(info);
         information.setType("未分类");
@@ -25,4 +37,5 @@ public class UploadInfoControlloer {
         infoService.insertInfo(information);
         return null;
     }
+
 }
