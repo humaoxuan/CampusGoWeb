@@ -27,10 +27,10 @@ public class UploadInfoControlloer {
     }
 
     @RequestMapping(value = "/uploadInfoByUser")
-    public String uploadInfoByUser(String info,int userId){
+    public String uploadInfoByUser(String info,int userId,String type){
         Information information = new Information();
         information.setContent(info);
-        information.setType("未分类");
+        information.setType(type);
         information.setTime(LocalDateTime.now());
         information.setUser_id(userId);
 
